@@ -49,6 +49,9 @@ management:
   health:
     mail:
       enabled: false
+    # 由于是动态连接，无需启动时检查ES的健康状态
+    elasticsearch:
+      enabled: false
   server:
     servlet:
       context-path: /actuator

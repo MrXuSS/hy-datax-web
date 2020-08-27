@@ -112,6 +112,8 @@ public interface JdbcConstants {
 
     String ELASTIC_SEARCH             = "elastic_search";
 
+    String ELASTICSEARCH             = "elasticsearch";
+
     String ELASTIC_SEARCH_DRIVER      = "com.alibaba.xdriver.elastic.jdbc.ElasticDriver";
 
     String CLICKHOUSE                 = "clickhouse";

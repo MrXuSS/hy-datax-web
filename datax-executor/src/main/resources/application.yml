@@ -17,7 +17,7 @@ datax:
       addresses: http://127.0.0.1:${datax.admin.port}
     executor:
       appname: datax-executor
-      ip:
+      ip: 127.0.0.1
       #port: 9999
       port: ${executor.port:9999}
       ### job log path
