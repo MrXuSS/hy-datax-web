@@ -49,11 +49,13 @@ public class DatasourceQueryServiceImpl implements DatasourceQueryService {
             return new HBaseQueryTool(datasource).getTableNames();
         } else if (JdbcConstants.MONGODB.equals(datasource.getDatasource())) {
             return new MongoDBQueryTool(datasource).getCollectionNames(datasource.getDatabaseName());
+        } else if (JdbcConstants.ELASTICSEARCH.equals(datasource.getDatasource())) {
+            return new ElasticsearchQueryTool(datasource).getIndexNames();
         } else {
             BaseQueryTool qTool = QueryToolFactory.getByDbType(datasource);
-            if(StringUtils.isBlank(tableSchema)){
+            if (StringUtils.isBlank(tableSchema)) {
                 return qTool.getTableNames();
-            }else{
+            } else {
                 return qTool.getTableNames(tableSchema);
             }
         }
@@ -95,6 +97,8 @@ public class DatasourceQueryServiceImpl implements DatasourceQueryService {
             return new HBaseQueryTool(datasource).getColumns(tableName);
         } else if (JdbcConstants.MONGODB.equals(datasource.getDatasource())) {
             return new MongoDBQueryTool(datasource).getColumns(tableName);
+        } else if (JdbcConstants.ELASTICSEARCH.equals(datasource.getDatasource())) {
+            return new ElasticsearchQueryTool(datasource).getFields(tableName);
         } else {
             BaseQueryTool queryTool = QueryToolFactory.getByDbType(datasource);
             return queryTool.getColumnNames(tableName, datasource.getDatasource());

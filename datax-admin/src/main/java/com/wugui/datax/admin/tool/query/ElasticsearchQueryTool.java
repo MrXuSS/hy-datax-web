@@ -4,13 +4,19 @@ import com.wugui.datax.admin.core.util.LocalCacheUtil;
 import com.wugui.datax.admin.entity.JobDatasource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHost;
+import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.client.indices.GetIndexRequest;
+import org.elasticsearch.client.indices.GetIndexResponse;
 
 import java.io.IOException;
 import java.net.ConnectException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangwei
@@ -49,9 +55,13 @@ public class ElasticsearchQueryTool {
             connection = new RestHighLevelClient(RestClient.builder(
                     new HttpHost(HttpHost.create(jobDatasource.getJdbcUrl()))));
             try {
-                connectionValidate = connection.indices().exists(new GetIndexRequest(jobDatasource.getDatabaseName()), RequestOptions.DEFAULT);;
+                connectionValidate = connection.indices().exists(new GetIndexRequest(jobDatasource.getDatabaseName()), RequestOptions.DEFAULT);
+                log.info("ES Cluster connect succeed, you are trying to connect " + jobDatasource.getJdbcUrl() +
+                        ". And the index " + jobDatasource.getDatabaseName() +
+                        " you are trying to connection's existence is " +
+                        connectionValidate);
             } catch (ConnectException e) {
-                log.warn("ES Cluster connect failed");
+                log.warn("ES Cluster connect failed, you are trying to connect " + jobDatasource.getJdbcUrl());
                 closeClient();
             } catch (IOException e) {
                 log.warn("ES indies get failed");
@@ -72,6 +82,60 @@ public class ElasticsearchQueryTool {
         }
     }
 
+    /**
+     * 获取所有索引的名称
+     *
+     * @return 所有索引的名称
+     */
+    public List<String> getIndexNames() {
+        List<String> indices = new ArrayList<>();
+        GetIndexRequest request = new GetIndexRequest("*");
+        GetIndexResponse response = null;
+        try {
+            response = connection.indices().get(request, RequestOptions.DEFAULT);
+        } catch (ElasticsearchStatusException e) {
+            log.warn("There is no index in ES now, the message is: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (response != null) {
+            indices = Arrays.asList(response.getIndices().clone());
+        }
+        return indices;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<String> getFields(String indexName) {
+        List<String> fields = new ArrayList<>();
+        GetIndexRequest request = new GetIndexRequest(indexName);
+        GetIndexResponse response = null;
+
+        try {
+            response = connection.indices().get(request, RequestOptions.DEFAULT);
+        } catch (ElasticsearchStatusException e) {
+            log.warn("There is no index in ES now, the message is: " + e.getMessage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (response != null) {
+            Map<String, Object> sourceMap = response.getMappings().get(indexName).getSourceAsMap();
+            Map<String, Object> esMapping = (Map<String, Object>) sourceMap.get("properties");
+            for (Map.Entry<String, Object> entry : esMapping.entrySet()) {
+                Map<String, Object> value = (Map<String, Object>) entry.getValue();
+                if (value.containsKey("properties")) {
+                    log.info(entry.getKey() + " object");
+                } else {
+                    log.info("Got Mapping, whose {} is {}", entry.getKey(), value.get("type"));
+                    fields.add((String) value.get("type"));
+                }
+            }
+
+        }
+
+        return fields;
+    }
 
     public boolean dataSourceTest() {
         return connectionValidate;
