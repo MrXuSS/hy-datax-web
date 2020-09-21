@@ -131,7 +131,6 @@ public class ElasticsearchQueryTool {
                     fields.add((String) value.get("type"));
                 }
             }
-
         }
 
         return fields;
