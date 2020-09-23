@@ -11,5 +11,4 @@ import com.wugui.datax.admin.tool.datax.DataxPluginInterface;
  */
 public interface DataxReaderInterface extends DataxPluginInterface {
 
-
 }

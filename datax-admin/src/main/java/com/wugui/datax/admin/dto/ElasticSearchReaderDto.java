@@ -1,6 +1,7 @@
 package com.wugui.datax.admin.dto;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  * @author Mr.Xu
