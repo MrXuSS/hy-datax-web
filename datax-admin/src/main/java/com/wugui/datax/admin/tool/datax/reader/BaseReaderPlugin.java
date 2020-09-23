@@ -69,7 +69,7 @@ public abstract class BaseReaderPlugin extends BaseDataxPlugin {
     }
 
     @Override
-    public Map<String, Object> buildElasticSearch(DataxElasticSearchPojo dataxElasticSearchPojo) {
+    public Map<String, Object> buildElasticSearch(DataxElasticSearch7Pojo dataxElasticSearchPojo) {
         return null;
     }
 }

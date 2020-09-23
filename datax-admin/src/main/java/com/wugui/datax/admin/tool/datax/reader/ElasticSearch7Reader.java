@@ -1,8 +1,7 @@
 package com.wugui.datax.admin.tool.datax.reader;
 
 import com.google.common.collect.Maps;
-import com.wugui.datax.admin.tool.pojo.DataxElasticSearchPojo;
-import com.wugui.datax.admin.tool.pojo.DataxMongoDBPojo;
+import com.wugui.datax.admin.tool.pojo.DataxElasticSearch7Pojo;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -11,10 +10,10 @@ import java.util.Map;
  * @author Mr.Xu
  * @create 2020-09-22 16:27
  */
-public class ElasticSearchReader extends BaseReaderPlugin implements DataxReaderInterface {
+public class ElasticSearch7Reader extends BaseReaderPlugin implements DataxReaderInterface {
     @Override
     public String getName() {
-        return "elasticsearchreader";
+        return "elasticsearch7reader";
     }
 
     @Override
@@ -23,7 +22,7 @@ public class ElasticSearchReader extends BaseReaderPlugin implements DataxReader
     }
 
     @Override
-    public Map<String, Object> buildElasticSearch(DataxElasticSearchPojo plugin) {
+    public Map<String, Object> buildElasticSearch(DataxElasticSearch7Pojo plugin) {
 
         LinkedHashMap<String, Object> readerObj = Maps.newLinkedHashMap();
         readerObj.put("name", getName());

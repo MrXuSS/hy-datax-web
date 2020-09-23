@@ -42,6 +42,7 @@ public class DataxJsonController extends BaseController {
         if (CollectionUtils.isEmpty(dto.getWriterColumns())) {
             return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_writerColumns"));
         }
+
         return success(dataxJsonService.buildJobJson(dto));
     }
 

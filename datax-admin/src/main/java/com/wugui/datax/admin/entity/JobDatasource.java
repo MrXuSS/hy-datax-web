@@ -140,4 +140,13 @@ public class JobDatasource extends Model<JobDatasource> {
     protected Serializable pkVal() {
         return this.id;
     }
+
+    // es
+    @ApiModelProperty(value = "batchSize")
+    private Integer batchSize;
+
+    // es
+    @ApiModelProperty(value = "cleanUp")
+    private Boolean cleanUp;
+
 }

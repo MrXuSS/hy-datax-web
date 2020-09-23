@@ -50,7 +50,7 @@ public interface DataxPluginInterface {
     Map<String,Object> buildMongoDB(DataxMongoDBPojo dataxMongoDBPojo);
 
 
-    Map<String, Object> buildElasticSearch(DataxElasticSearchPojo dataxElasticSearchPojo);
+    Map<String, Object> buildElasticSearch(DataxElasticSearch7Pojo dataxElasticSearchPojo);
 
     /**
      * 获取示例

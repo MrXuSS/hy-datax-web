@@ -1,7 +1,7 @@
 package com.wugui.datax.admin.tool.pojo;
 
+import com.wugui.datax.admin.entity.JobDatasource;
 import lombok.Data;
-import org.elasticsearch.client.RestHighLevelClient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,13 +12,18 @@ import java.util.Map;
  * @create 2020-09-22 16:33
  */
 @Data
-public class DataxElasticSearchPojo {
+public class DataxElasticSearch7Pojo {
+
+    /**
+     * 数据源信息
+     */
+    private JobDatasource jdbcDatasource;
 
     private String name;
 
     private String esClusterHosts;
 
-    private String batchSize;
+    private Integer batchSize;
 
     private String esIndex;
 
@@ -30,10 +35,10 @@ public class DataxElasticSearchPojo {
 
     private String index;
 
-    private HashMap<String, Map<String, Integer>> settings;
+    private Map<String, Map<String, Integer>> settings;
 
     private String splitter;
 
-    private List<Map<String, String>> columns;
+    private List<Map<String, Object>> columns;
 
 }
