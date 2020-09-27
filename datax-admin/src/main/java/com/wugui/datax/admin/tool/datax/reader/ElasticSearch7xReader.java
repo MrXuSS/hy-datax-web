@@ -10,10 +10,10 @@ import java.util.Map;
  * @author Mr.Xu
  * @create 2020-09-22 16:27
  */
-public class ElasticSearch7Reader extends BaseReaderPlugin implements DataxReaderInterface {
+public class ElasticSearch7xReader extends BaseReaderPlugin implements DataxReaderInterface {
     @Override
     public String getName() {
-        return "elasticsearch7reader";
+        return "elasticsearch7xreader";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ElasticSearch7Reader extends BaseReaderPlugin implements DataxReade
         LinkedHashMap<String, Object> parameterObj = Maps.newLinkedHashMap();
         parameterObj.put("esClusterHosts", plugin.getEsClusterHosts());
         parameterObj.put("batchSize", plugin.getBatchSize());
-        parameterObj.put("esIndex", plugin.getIndex());
+        parameterObj.put("esIndex", plugin.getEsIndex());
 
         readerObj.put("parameter", parameterObj);
         return readerObj;

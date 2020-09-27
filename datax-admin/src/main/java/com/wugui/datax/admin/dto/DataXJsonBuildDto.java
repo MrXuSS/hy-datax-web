@@ -44,7 +44,7 @@ public class DataXJsonBuildDto implements Serializable {
 
     private MongoDBWriterDto mongoDBWriter;
 
-    private ElasticSearch7ReaderDto elasticSearch7Reader;
+    private ElasticSearch7xReaderDto elasticSearch7xReader;
 
-    private ElasticSearch7WriterDto elasticSearch7Writer;
+    private ElasticSearch7xWriterDto elasticSearch7xWriter;
 }

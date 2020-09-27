@@ -14,7 +14,6 @@ import com.wugui.datax.admin.tool.pojo.*;
 import com.wugui.datax.admin.util.JdbcConstants;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tools.ant.BuildListener;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -85,9 +84,9 @@ public class DataxJsonHelper implements DataxJsonInterface {
 
     private MongoDBWriterDto mongoDBWriterDto;
 
-    private ElasticSearch7ReaderDto elasticSearch7ReaderDto;
+    private ElasticSearch7xReaderDto elasticSearch7XReaderDto;
 
-    private ElasticSearch7WriterDto elasticSearch7WriterDto;
+    private ElasticSearch7xWriterDto elasticSearch7XWriterDto;
 
 
     //用于保存额外参数
@@ -102,7 +101,7 @@ public class DataxJsonHelper implements DataxJsonInterface {
         this.rdbmsReaderDto = dataxJsonDto.getRdbmsReader();
         this.hbaseReaderDto = dataxJsonDto.getHbaseReader();
         // es
-        this.elasticSearch7ReaderDto = dataxJsonDto.getElasticSearch7Reader();
+        this.elasticSearch7XReaderDto = dataxJsonDto.getElasticSearch7xReader();
         // reader 插件
         String datasource = readerDatasource.getDatasource();
 
@@ -132,8 +131,8 @@ public class DataxJsonHelper implements DataxJsonInterface {
             readerPlugin = new MongoDBReader();
             buildReader = buildMongoDBReader();
         }else if(ELASTICSEARCH.equals(datasource)){
-            readerPlugin = new ElasticSearch7Reader();
-            buildReader = buildElasticSearch7Reader();
+            readerPlugin = new ElasticSearch7xReader();
+            buildReader = buildElasticSearch7xReader();
         }
     }
 
@@ -145,7 +144,7 @@ public class DataxJsonHelper implements DataxJsonInterface {
         this.rdbmsWriterDto = dataxJsonDto.getRdbmsWriter();
         this.hbaseWriterDto = dataxJsonDto.getHbaseWriter();
         this.mongoDBWriterDto = dataxJsonDto.getMongoDBWriter();
-        this.elasticSearch7WriterDto = dataxJsonDto.getElasticSearch7Writer();
+        this.elasticSearch7XWriterDto = dataxJsonDto.getElasticSearch7xWriter();
         // writer
         String datasource = readerDatasource.getDatasource();
         this.writerColumns = convertKeywordsColumns(datasource, this.writerColumns);
@@ -174,8 +173,8 @@ public class DataxJsonHelper implements DataxJsonInterface {
             writerPlugin = new MongoDBWriter();
             buildWriter = this.buildMongoDBWriter();
         }else if(ELASTICSEARCH.equals(datasource)){
-            writerPlugin = new ElasticSearch7Writer();
-            buildWriter = this.buildElasticSearch7Writer();
+            writerPlugin = new ElasticSearch7xWriter();
+            buildWriter = this.buildElasticSearch7xWriter();
         }
     }
 
@@ -387,12 +386,29 @@ public class DataxJsonHelper implements DataxJsonInterface {
     }
 
     @Override
-    public Map<String, Object> buildElasticSearch7Reader() {
+    public Map<String, Object> buildElasticSearch7xReader() {
         DataxElasticSearch7Pojo dataxElasticSearch7Pojo = new DataxElasticSearch7Pojo();
-        dataxElasticSearch7Pojo.setEsClusterHosts(handleListToString(elasticSearch7ReaderDto.getEsClusterHosts()));
-        dataxElasticSearch7Pojo.setBatchSize(Integer.parseInt(elasticSearch7ReaderDto.getBatchSize()));
-        dataxElasticSearch7Pojo.setEsIndex(elasticSearch7ReaderDto.getEsIndex());
+        dataxElasticSearch7Pojo.setEsClusterHosts(handleArrayToString(elasticSearch7XReaderDto.getEsClusterHosts()));
+        dataxElasticSearch7Pojo.setEsIndex(elasticSearch7XReaderDto.getEsIndex());
+        dataxElasticSearch7Pojo.setBatchSize(Integer.parseInt(elasticSearch7XReaderDto.getBatchSize()));
         return readerPlugin.buildElasticSearch(dataxElasticSearch7Pojo);
+    }
+
+    /**
+     * 将前台传来的数组转换成字符串。 格式： “host1，host2，...”
+     * @param hosts 前台传来的数组
+     * @return 拼接到最终json的hosts字符串
+     */
+    private String handleArrayToString(String[] hosts){
+        String result= "";
+        for (int i = 0; i < hosts.length; ++ i){
+            if(i == hosts.length - 1){
+                result += hosts[i];
+            }else {
+                result += hosts[i] + ",";
+            }
+        }
+        return result;
     }
 
     private String handleListToString(List<String> list){
@@ -408,16 +424,14 @@ public class DataxJsonHelper implements DataxJsonInterface {
     }
 
     @Override
-    public Map<String, Object> buildElasticSearch7Writer() {
+    public Map<String, Object> buildElasticSearch7xWriter() {
         DataxElasticSearch7Pojo dataxElasticSearch7Pojo = new DataxElasticSearch7Pojo();
-        dataxElasticSearch7Pojo.setHosts(handleListToString(elasticSearch7WriterDto.getHosts()));
-        dataxElasticSearch7Pojo.setCleanup(elasticSearch7WriterDto.getCleanup());
-        dataxElasticSearch7Pojo.setIndex(elasticSearch7WriterDto.getIndex());
-        dataxElasticSearch7Pojo.setSplitter(elasticSearch7WriterDto.getSplitter());
-        List<Map<String, Object>> column = Lists.newArrayList();
-        buildColumns(writerColumns, column);
-        dataxElasticSearch7Pojo.setColumns(column);
-        dataxElasticSearch7Pojo.setSettings(elasticSearch7WriterDto.getSettings());
+        dataxElasticSearch7Pojo.setHosts(handleArrayToString(elasticSearch7XWriterDto.getHosts()));
+        dataxElasticSearch7Pojo.setCleanup(elasticSearch7XWriterDto.getCleanup());
+        dataxElasticSearch7Pojo.setIndex(elasticSearch7XWriterDto.getIndex());
+        dataxElasticSearch7Pojo.setSplitter(elasticSearch7XWriterDto.getSplitter());
+        dataxElasticSearch7Pojo.setColumns(elasticSearch7XWriterDto.getColumns());
+        dataxElasticSearch7Pojo.setSettings(elasticSearch7XWriterDto.getSettings());
         return writerPlugin.buildElasticSearch(dataxElasticSearch7Pojo);
     }
 

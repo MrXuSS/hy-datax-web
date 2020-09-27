@@ -11,9 +11,9 @@ import java.util.Map;
  * @create 2020-09-22 16:00
  */
 @Data
-public class ElasticSearch7WriterDto implements Serializable {
+public class ElasticSearch7xWriterDto implements Serializable {
 
-  private List<String> hosts;
+  private String[] hosts;
 
   private Boolean cleanup;
 
@@ -23,5 +23,5 @@ public class ElasticSearch7WriterDto implements Serializable {
 
   private String splitter;
 
-  private List<Map<String, String>> columns;
+  private List<Map<String, Object>> columns;
 }

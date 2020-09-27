@@ -11,9 +11,9 @@ import java.util.Map;
  * @create 2020-09-22 16:00
  */
 @Data
-public class ElasticSearch7ReaderDto implements Serializable {
+public class ElasticSearch7xReaderDto implements Serializable {
 
-    private List<String> esClusterHosts;
+    private String[] esClusterHosts;
 
     private String batchSize;
 

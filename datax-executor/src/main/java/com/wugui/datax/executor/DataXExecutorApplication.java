@@ -12,5 +12,4 @@ public class DataXExecutorApplication {
 	public static void main(String[] args) {
         SpringApplication.run(DataXExecutorApplication.class, args);
 	}
-
 }

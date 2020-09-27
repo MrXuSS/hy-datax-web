@@ -29,6 +29,7 @@ public class DataxJsonController extends BaseController {
     @PostMapping("/buildJson")
     @ApiOperation("JSON构建")
     public R<String> buildJobJson(@RequestBody DataXJsonBuildDto dto) {
+
         String key = "system_please_choose";
         if (dto.getReaderDatasourceId() == null) {
             return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_readerDataSource"));
@@ -36,12 +37,15 @@ public class DataxJsonController extends BaseController {
         if (dto.getWriterDatasourceId() == null) {
             return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_writerDataSource"));
         }
-        if (CollectionUtils.isEmpty(dto.getReaderColumns())) {
-            return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_readerColumns"));
+        if (dto.getElasticSearch7xReader() == null) {
+            if (CollectionUtils.isEmpty(dto.getReaderColumns())) {
+                return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_readerColumns"));
+            }
+            if (CollectionUtils.isEmpty(dto.getWriterColumns())) {
+                return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_writerColumns"));
+            }
         }
-        if (CollectionUtils.isEmpty(dto.getWriterColumns())) {
-            return failed(I18nUtil.getString(key) + I18nUtil.getString("jobinfo_field_writerColumns"));
-        }
+
 
         return success(dataxJsonService.buildJobJson(dto));
     }

@@ -10,11 +10,11 @@ import java.util.Map;
  * @author Mr.Xu
  * @create 2020-09-23 8:37
  */
-public class ElasticSearch7Writer extends BaseWriterPlugin implements DataxWriterInterface {
+public class ElasticSearch7xWriter extends BaseWriterPlugin implements DataxWriterInterface {
 
     @Override
     public String getName() {
-        return "elasticsearch7writer";
+        return "elasticsearch7xwriter";
     }
 
     @Override
@@ -28,11 +28,12 @@ public class ElasticSearch7Writer extends BaseWriterPlugin implements DataxWrite
         writerObj.put("name", getName());
 
         LinkedHashMap<Object, Object> parameterObj = Maps.newLinkedHashMap();
+        parameterObj.put("splitter", plugin.getSplitter());
         parameterObj.put("hosts", plugin.getHosts());
         parameterObj.put("cleanup", plugin.getCleanup());
         parameterObj.put("index", plugin.getIndex());
-        parameterObj.put("settings", plugin.getSettings().toString());
-        parameterObj.put("column", plugin.getColumns().toString());
+        parameterObj.put("settings", plugin.getSettings());
+        parameterObj.put("column", plugin.getColumns());
 
         writerObj.put("parameter", parameterObj);
         return writerObj;
