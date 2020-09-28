@@ -13,8 +13,6 @@ import java.util.Map;
 @Data
 public class ElasticSearch7xWriterDto implements Serializable {
 
-  private String[] hosts;
-
   private Boolean cleanup;
 
   private String index;

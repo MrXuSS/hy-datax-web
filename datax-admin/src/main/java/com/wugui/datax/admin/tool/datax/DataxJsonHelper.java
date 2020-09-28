@@ -230,7 +230,11 @@ public class DataxJsonHelper implements DataxJsonInterface {
         Map<String, Object> res = Maps.newLinkedHashMap();
         Map<String, Object> speedMap = Maps.newLinkedHashMap();
         Map<String, Object> errorLimitMap = Maps.newLinkedHashMap();
-        speedMap.putAll(ImmutableMap.of("channel", 3, "byte", 1048576));
+        if (elasticSearch7XWriterDto != null){
+            speedMap.putAll(ImmutableMap.of("channel", 3));
+        }else {
+            speedMap.putAll(ImmutableMap.of("channel", 3, "byte", 1048576));
+        }
         errorLimitMap.putAll(ImmutableMap.of("record", 0, "percentage", 0.02));
         res.put("speed", speedMap);
         res.put("errorLimit", errorLimitMap);
@@ -388,7 +392,8 @@ public class DataxJsonHelper implements DataxJsonInterface {
     @Override
     public Map<String, Object> buildElasticSearch7xReader() {
         DataxElasticSearch7Pojo dataxElasticSearch7Pojo = new DataxElasticSearch7Pojo();
-        dataxElasticSearch7Pojo.setEsClusterHosts(handleArrayToString(elasticSearch7XReaderDto.getEsClusterHosts()));
+        dataxElasticSearch7Pojo.setJdbcDatasource(readerDatasource);
+//        dataxElasticSearch7Pojo.setEsClusterHosts(handleArrayToString(elasticSearch7XReaderDto.getEsClusterHosts()));
         dataxElasticSearch7Pojo.setEsIndex(elasticSearch7XReaderDto.getEsIndex());
         dataxElasticSearch7Pojo.setBatchSize(Integer.parseInt(elasticSearch7XReaderDto.getBatchSize()));
         return readerPlugin.buildElasticSearch(dataxElasticSearch7Pojo);
@@ -426,7 +431,8 @@ public class DataxJsonHelper implements DataxJsonInterface {
     @Override
     public Map<String, Object> buildElasticSearch7xWriter() {
         DataxElasticSearch7Pojo dataxElasticSearch7Pojo = new DataxElasticSearch7Pojo();
-        dataxElasticSearch7Pojo.setHosts(handleArrayToString(elasticSearch7XWriterDto.getHosts()));
+        dataxElasticSearch7Pojo.setJdbcDatasource(writerDatasource);
+//        dataxElasticSearch7Pojo.setHosts(handleArrayToString(elasticSearch7XWriterDto.getHosts()));
         dataxElasticSearch7Pojo.setCleanup(elasticSearch7XWriterDto.getCleanup());
         dataxElasticSearch7Pojo.setIndex(elasticSearch7XWriterDto.getIndex());
         dataxElasticSearch7Pojo.setSplitter(elasticSearch7XWriterDto.getSplitter());

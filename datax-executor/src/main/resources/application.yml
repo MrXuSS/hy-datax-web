@@ -32,5 +32,6 @@ datax:
     jsonpath: D:\temp\executor\json\
 #    jsonpath: ${json.path}
 
-  pypath: D:\Program\datax\bin\datax.py
+#  pypath: D:\Program\datax\bin\datax.py
+  pypath: D:\Program\datax-hy\datax\datax\bin\datax.py
 #  pypath: ${python.path}

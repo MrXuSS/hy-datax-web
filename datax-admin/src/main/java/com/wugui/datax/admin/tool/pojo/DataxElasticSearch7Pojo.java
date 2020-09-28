@@ -21,15 +21,11 @@ public class DataxElasticSearch7Pojo {
 
     private String name;
 
-    private String esClusterHosts;
-
     private Integer batchSize;
 
     private String esIndex;
 
     // ========================================
-
-    private String hosts;
 
     private Boolean cleanup;
 

@@ -13,8 +13,6 @@ import java.util.Map;
 @Data
 public class ElasticSearch7xReaderDto implements Serializable {
 
-    private String[] esClusterHosts;
-
     private String batchSize;
 
     private String esIndex;

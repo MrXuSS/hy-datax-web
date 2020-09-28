@@ -29,7 +29,8 @@ public class ElasticSearch7xWriter extends BaseWriterPlugin implements DataxWrit
 
         LinkedHashMap<Object, Object> parameterObj = Maps.newLinkedHashMap();
         parameterObj.put("splitter", plugin.getSplitter());
-        parameterObj.put("hosts", plugin.getHosts());
+//        parameterObj.put("hosts", plugin.getHosts());
+        parameterObj.put("hosts", plugin.getJdbcDatasource().getJdbcUrl());
         parameterObj.put("cleanup", plugin.getCleanup());
         parameterObj.put("index", plugin.getIndex());
         parameterObj.put("settings", plugin.getSettings());

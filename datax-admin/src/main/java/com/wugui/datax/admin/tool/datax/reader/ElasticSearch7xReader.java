@@ -27,7 +27,7 @@ public class ElasticSearch7xReader extends BaseReaderPlugin implements DataxRead
         LinkedHashMap<String, Object> readerObj = Maps.newLinkedHashMap();
         readerObj.put("name", getName());
         LinkedHashMap<String, Object> parameterObj = Maps.newLinkedHashMap();
-        parameterObj.put("esClusterHosts", plugin.getEsClusterHosts());
+        parameterObj.put("esClusterHosts", plugin.getJdbcDatasource());
         parameterObj.put("batchSize", plugin.getBatchSize());
         parameterObj.put("esIndex", plugin.getEsIndex());
 
