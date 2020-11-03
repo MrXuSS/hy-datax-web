@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -230,11 +231,7 @@ public class DataxJsonHelper implements DataxJsonInterface {
         Map<String, Object> res = Maps.newLinkedHashMap();
         Map<String, Object> speedMap = Maps.newLinkedHashMap();
         Map<String, Object> errorLimitMap = Maps.newLinkedHashMap();
-        if (elasticSearch7XWriterDto != null){
-            speedMap.putAll(ImmutableMap.of("channel", 3));
-        }else {
-            speedMap.putAll(ImmutableMap.of("channel", 3, "byte", 1048576));
-        }
+        speedMap.putAll(ImmutableMap.of("channel", 3));
         errorLimitMap.putAll(ImmutableMap.of("record", 0, "percentage", 0.02));
         res.put("speed", speedMap);
         res.put("errorLimit", errorLimitMap);
@@ -330,6 +327,8 @@ public class DataxJsonHelper implements DataxJsonInterface {
         dataxPluginPojo.setPostSql(rdbmsWriterDto.getPostSql());
         return writerPlugin.build(dataxPluginPojo);
     }
+
+
 
     @Override
     public Map<String, Object> buildHiveWriter() {
